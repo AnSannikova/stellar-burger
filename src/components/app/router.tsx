@@ -9,19 +9,20 @@ import {
   Register,
   ResetPassword
 } from '@pages';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { OrderInfo } from '../order-info';
 import { Modal } from '../modal';
 import { IngredientDetails } from '../ingredient-details';
 
 export const Router = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-  const backgroundLocation = location.state?.backgroundLocation;
+  const background = location.state?.background;
 
   return (
     <>
-      <Routes location={backgroundLocation || location}>
+      <Routes location={background || location}>
         <Route path='*' element={<NotFound404 />} />
 
         <Route path='/' element={<ConstructorPage />} />
@@ -99,31 +100,31 @@ export const Router = () => {
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
       </Routes>
 
-      {backgroundLocation && (
+      {background && (
         <Routes>
           <Route
             path='/feed/:number'
-            // element={
-            //   <Modal title='Заголовок' onClose={() => console.log('close')}>
-            //     <OrderInfo />
-            //   </Modal>
-            // }
+            element={
+              <Modal title='Детали заказа' onClose={() => navigate(-1)}>
+                <OrderInfo />
+              </Modal>
+            }
           />
           <Route
             path='/ingredients/:id'
-            // element={
-            //   <Modal title='Заголовок' onClose={() => console.log('close')}>
-            //     <IngredientDetails />
-            //   </Modal>
-            // }
+            element={
+              <Modal title='Детали ингредиента' onClose={() => navigate(-1)}>
+                <IngredientDetails />
+              </Modal>
+            }
           />
           <Route
             path='/profile/orders/:number'
-            // element={
-            //   <Modal title='Заголовок' onClose={() => console.log('close')}>
-            //     <OrderInfo />
-            //   </Modal>
-            // }
+            element={
+              <Modal title='Заголовок' onClose={() => navigate(-1)}>
+                <OrderInfo />
+              </Modal>
+            }
           />
         </Routes>
       )}
