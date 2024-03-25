@@ -2,10 +2,6 @@ import { getFeedsApi, getIngredientsApi, orderBurgerApi } from '@api';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TIngredient, TOrder } from '@utils-types';
 
-interface TConstructorIngredient extends TIngredient {
-  index: number;
-}
-
 type TConstructorItems = {
   bun: TIngredient | null;
   ingredients: Array<TIngredient> | [];
@@ -26,6 +22,10 @@ type TBurgersState = {
     order: TOrder | null;
   };
 };
+
+interface TConstructorIngredient extends TIngredient {
+  index: number;
+}
 
 const initialState: TBurgersState = {
   ingredients: [],

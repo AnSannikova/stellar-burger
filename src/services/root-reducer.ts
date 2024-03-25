@@ -1,5 +1,6 @@
-import { burgersReducer } from './slices/burgersSlice';
+import { burgersReducer, userReducer } from '@slices';
 
 export const rootReducer = {
-  burgers: burgersReducer
+  burgers: burgersReducer,
+  user: userReducer
 };
