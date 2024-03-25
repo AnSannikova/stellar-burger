@@ -3,7 +3,7 @@ import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
 import { useSelector } from '../../services/store';
-import { getConstructorItemsSelector } from '../../services/slices/burgersSlice';
+import { getConstructorItemsSelector } from '@slices';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
@@ -20,7 +20,7 @@ export const IngredientsCategory = forwardRef<
       counters[ingredient._id]++;
     });
 
-    if ('_id' in bun) counters[bun._id] = 2;
+    if (bun) counters[bun._id] = 2;
     return counters;
   }, [burgerConstructor]);
 

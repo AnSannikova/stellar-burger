@@ -1,15 +1,19 @@
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useSelector } from '../../services/store';
-import { getConstructorItemsSelector } from '../../services/slices/burgersSlice';
+import { useDispatch, useSelector } from '../../services/store';
+import {
+  getConstructorItemsSelector,
+  getOrderResponseSelector,
+  orderBurger,
+  resetOrderResponse
+} from '@slices';
 
 export const BurgerConstructor: FC = () => {
+  const dispatch = useDispatch();
   const constructorItems = useSelector(getConstructorItemsSelector);
-
-  const orderRequest = false;
-
-  const orderModalData = null;
+  const orderResponse = useSelector(getOrderResponseSelector);
+  const orderRequest = orderResponse.success;
+  const orderModalData = orderResponse.order;
 
   // const onOrderClick = () => {
   // if (!user) {
@@ -18,13 +22,17 @@ export const BurgerConstructor: FC = () => {
   // }
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (constructorItems.bun && constructorItems.ingredients.length > 0)
+      dispatch(orderBurger(constructorItems));
   };
-  const closeOrderModal = () => {};
+
+  const closeOrderModal = () => {
+    dispatch(resetOrderResponse());
+  };
 
   const price = useMemo(
     () =>
-      ('price' in constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
+      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
       (constructorItems.ingredients.length > 0
         ? constructorItems.ingredients?.reduce(
             (accum, currentValue) => accum + currentValue.price,

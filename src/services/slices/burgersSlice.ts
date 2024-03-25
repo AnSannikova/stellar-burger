@@ -7,7 +7,7 @@ interface TConstructorIngredient extends TIngredient {
 }
 
 type TConstructorItems = {
-  bun: TIngredient | {};
+  bun: TIngredient | null;
   ingredients: Array<TIngredient> | [];
 };
 
@@ -21,6 +21,10 @@ type TBurgersState = {
     total: number;
     totalToday: number;
   };
+  orderResponse: {
+    success: boolean;
+    order: TOrder | null;
+  };
 };
 
 const initialState: TBurgersState = {
@@ -28,13 +32,17 @@ const initialState: TBurgersState = {
   loading: true,
   error: null,
   constructorItems: {
-    bun: {},
+    bun: null,
     ingredients: []
   },
   feeds: {
     orders: [],
     total: 0,
     totalToday: 0
+  },
+  orderResponse: {
+    success: false,
+    order: null
   }
 };
 
@@ -51,7 +59,7 @@ export const orderBurger = createAsyncThunk(
   'burgers/orderBurger',
   async (items: TConstructorItems) => {
     let orderData;
-    if ('_id' in items.bun && items.ingredients.length > 0) {
+    if (items.bun && items.ingredients.length > 0) {
       orderData = [items.bun._id];
       items.ingredients.forEach((item) => orderData.push(item._id));
     }
@@ -103,6 +111,12 @@ const burgersSlice = createSlice({
         0,
         ingredient
       );
+    },
+    resetOrderResponse: (state) => {
+      state.orderResponse = {
+        success: false,
+        order: null
+      };
     }
   },
   selectors: {
@@ -110,7 +124,9 @@ const burgersSlice = createSlice({
     getIngredientsSelector: (state) => state.ingredients,
     getLoadingSelector: (state) => state.loading,
     getConstructorItemsSelector: (state) => state.constructorItems,
-    getOrders: (state) => state.feeds.orders
+    getOrdersSelector: (state) => state.feeds.orders,
+    getFeedsSelector: (state) => state.feeds,
+    getOrderResponseSelector: (state) => state.orderResponse
   },
   extraReducers: (builder) => {
     builder
@@ -142,7 +158,12 @@ const burgersSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(orderBurger.fulfilled, (state, action) => {
-        state.feeds.orders = [...state.feeds.orders, action.payload.order];
+        state.orderResponse.success = action.payload.success;
+        state.orderResponse.order = action.payload.order;
+        state.constructorItems = {
+          bun: null,
+          ingredients: []
+        };
       });
   }
 });
@@ -154,12 +175,15 @@ export const {
   getIngredientsSelector,
   getLoadingSelector,
   getConstructorItemsSelector,
-  getOrders
+  getOrdersSelector,
+  getFeedsSelector,
+  getOrderResponseSelector
 } = burgersSlice.selectors;
 
 export const {
   addConstructorItem,
   removeConstructorItem,
   moveUpConstructorItem,
-  moveDownConstructorItem
+  moveDownConstructorItem,
+  resetOrderResponse
 } = burgersSlice.actions;
