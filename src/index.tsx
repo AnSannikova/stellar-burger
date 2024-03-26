@@ -4,16 +4,14 @@ import App from './components/app/app';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './services/store';
-import {
-  getAllFeeds,
-  getBurgerIngredients
-} from './services/slices/burgersSlice';
+import { checkUserAuth, getAllFeeds, getBurgerIngredients } from '@slices';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = ReactDOMClient.createRoot(container!);
 
 store.dispatch(getBurgerIngredients());
 store.dispatch(getAllFeeds());
+store.dispatch(checkUserAuth());
 
 root.render(
   <React.StrictMode>

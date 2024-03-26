@@ -1,8 +1,8 @@
-import { getFeedsApi, getIngredientsApi, orderBurgerApi } from '@api';
+import { getIngredientsApi } from '@api';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TIngredient, TOrder } from '@utils-types';
+import { TIngredient } from '@utils-types';
 
-type TConstructorItems = {
+export type TConstructorItems = {
   bun: TIngredient | null;
   ingredients: Array<TIngredient> | [];
 };
@@ -12,15 +12,6 @@ type TBurgersState = {
   loading: boolean;
   error: string | null | undefined;
   constructorItems: TConstructorItems;
-  feeds: {
-    orders: TOrder[] | [];
-    total: number;
-    totalToday: number;
-  };
-  orderResponse: {
-    success: boolean;
-    order: TOrder | null;
-  };
 };
 
 interface TConstructorIngredient extends TIngredient {
@@ -34,37 +25,12 @@ const initialState: TBurgersState = {
   constructorItems: {
     bun: null,
     ingredients: []
-  },
-  feeds: {
-    orders: [],
-    total: 0,
-    totalToday: 0
-  },
-  orderResponse: {
-    success: false,
-    order: null
   }
 };
 
 export const getBurgerIngredients = createAsyncThunk(
   'burgers/getAllIngredients',
   async () => getIngredientsApi()
-);
-
-export const getAllFeeds = createAsyncThunk('burgers/getAllFeeds', async () =>
-  getFeedsApi()
-);
-
-export const orderBurger = createAsyncThunk(
-  'burgers/orderBurger',
-  async (items: TConstructorItems) => {
-    let orderData;
-    if (items.bun && items.ingredients.length > 0) {
-      orderData = [items.bun._id];
-      items.ingredients.forEach((item) => orderData.push(item._id));
-    }
-    return orderBurgerApi(orderData!);
-  }
 );
 
 const burgersSlice = createSlice({
@@ -112,10 +78,10 @@ const burgersSlice = createSlice({
         ingredient
       );
     },
-    resetOrderResponse: (state) => {
-      state.orderResponse = {
-        success: false,
-        order: null
+    resetConstructorItems: (state) => {
+      state.constructorItems = {
+        bun: null,
+        ingredients: []
       };
     }
   },
@@ -123,10 +89,7 @@ const burgersSlice = createSlice({
     getBurgersState: (state) => state,
     getIngredientsSelector: (state) => state.ingredients,
     getLoadingSelector: (state) => state.loading,
-    getConstructorItemsSelector: (state) => state.constructorItems,
-    getOrdersSelector: (state) => state.feeds.orders,
-    getFeedsSelector: (state) => state.feeds,
-    getOrderResponseSelector: (state) => state.orderResponse
+    getConstructorItemsSelector: (state) => state.constructorItems
   },
   extraReducers: (builder) => {
     builder
@@ -141,29 +104,6 @@ const burgersSlice = createSlice({
       .addCase(getBurgerIngredients.fulfilled, (state, action) => {
         state.loading = false;
         state.ingredients = action.payload;
-      })
-      .addCase(getAllFeeds.pending, (state) => {
-        state.error = null;
-      })
-      .addCase(getAllFeeds.rejected, (state, action) => {
-        state.error = action.error.message;
-      })
-      .addCase(getAllFeeds.fulfilled, (state, action) => {
-        state.feeds = { ...action.payload };
-      })
-      .addCase(orderBurger.pending, (state) => {
-        state.error = null;
-      })
-      .addCase(orderBurger.rejected, (state, action) => {
-        state.error = action.error.message;
-      })
-      .addCase(orderBurger.fulfilled, (state, action) => {
-        state.orderResponse.success = action.payload.success;
-        state.orderResponse.order = action.payload.order;
-        state.constructorItems = {
-          bun: null,
-          ingredients: []
-        };
       });
   }
 });
@@ -174,10 +114,7 @@ export const {
   getBurgersState,
   getIngredientsSelector,
   getLoadingSelector,
-  getConstructorItemsSelector,
-  getOrdersSelector,
-  getFeedsSelector,
-  getOrderResponseSelector
+  getConstructorItemsSelector
 } = burgersSlice.selectors;
 
 export const {
@@ -185,5 +122,5 @@ export const {
   removeConstructorItem,
   moveUpConstructorItem,
   moveDownConstructorItem,
-  resetOrderResponse
+  resetConstructorItems
 } = burgersSlice.actions;

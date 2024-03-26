@@ -5,6 +5,7 @@ import {
   getConstructorItemsSelector,
   getOrderResponseSelector,
   orderBurger,
+  resetConstructorItems,
   resetOrderResponse
 } from '@slices';
 
@@ -22,8 +23,8 @@ export const BurgerConstructor: FC = () => {
   // }
 
   const onOrderClick = () => {
-    if (constructorItems.bun && constructorItems.ingredients.length > 0)
-      dispatch(orderBurger(constructorItems));
+    dispatch(orderBurger(constructorItems));
+    dispatch(resetConstructorItems());
   };
 
   const closeOrderModal = () => {
