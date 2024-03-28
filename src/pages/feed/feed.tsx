@@ -1,12 +1,16 @@
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
-import { getAllFeeds, getOrdersSelector } from '@slices';
+import { getAllFeeds, getAllOrdersSelector } from '@slices';
 
 export const Feed: FC = () => {
-  const orders = useSelector(getOrdersSelector);
+  const orders = useSelector(getAllOrdersSelector);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllFeeds());
+  }, [dispatch]);
 
   if (!orders.length) {
     return <Preloader />;

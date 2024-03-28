@@ -2,27 +2,30 @@ import { FC, useMemo } from 'react';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import {
+  authCheckedSelector,
   getConstructorItemsSelector,
+  getOrderRequestSelector,
   getOrderResponseSelector,
   orderBurger,
   resetConstructorItems,
   resetOrderResponse
 } from '@slices';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
-  const constructorItems = useSelector(getConstructorItemsSelector);
-  const orderResponse = useSelector(getOrderResponseSelector);
-  const orderRequest = orderResponse.success;
-  const orderModalData = orderResponse.order;
+  const navigate = useNavigate();
 
-  // const onOrderClick = () => {
-  // if (!user) {
-  //   navigate('/login');
-  //   return;
-  // }
+  const isAuthChecked = useSelector(authCheckedSelector);
+  const constructorItems = useSelector(getConstructorItemsSelector);
+  const orderRequest = useSelector(getOrderRequestSelector);
+  const orderModalData = useSelector(getOrderResponseSelector);
 
   const onOrderClick = () => {
+    if (!isAuthChecked) {
+      navigate('/login');
+      return;
+    }
     dispatch(orderBurger(constructorItems));
     dispatch(resetConstructorItems());
   };

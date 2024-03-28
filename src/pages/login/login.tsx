@@ -1,16 +1,28 @@
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { LoginUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
-import { authCheckedSelector, loginUser } from '@slices';
+import {
+  authCheckedSelector,
+  isErrorSelector,
+  isLoadingSelector,
+  loginUser,
+  resetErrorMessage
+} from '@slices';
 import { Navigate } from 'react-router-dom';
+import { Preloader } from '@ui';
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const isAuthenticated = useSelector(authCheckedSelector);
+  const isError = useSelector(isErrorSelector);
+  const isLoading = useSelector(isLoadingSelector);
 
-  /** TODO: добавить обработку ошибок errorText */
+  useEffect(() => {
+    dispatch(resetErrorMessage());
+  }, [dispatch]);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -21,14 +33,11 @@ export const Login: FC = () => {
     return <Navigate to={'/'} />;
   }
 
+  if (isLoading) return <Preloader />;
+
   return (
     <LoginUI
-      // errorText={
-      //   requestSuccess === false
-      //     ? 'Имя пользователя или пароль введены неверно'
-      //     : ''
-      // }
-      errorText=''
+      errorText={isError ? 'Электронный адрес или пароль введены неверно' : ''}
       email={email}
       setEmail={setEmail}
       password={password}

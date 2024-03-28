@@ -24,7 +24,6 @@ export const Router = () => {
     <>
       <Routes location={background || location}>
         <Route path='*' element={<NotFound404 />} />
-
         <Route path='/' element={<ConstructorPage />} />
 
         <Route path='/feed'>
@@ -32,68 +31,20 @@ export const Router = () => {
           <Route path=':number' element={<OrderInfo />} />
         </Route>
 
-        <Route
-          path='/login'
-          element={
-            <ProtectedRoute onlyUnAuth>
-              <Login />
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<ProtectedRoute onlyUnAuth />}>
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/reset-password' element={<ResetPassword />} />
+        </Route>
 
-        <Route
-          path='/register'
-          element={
-            <ProtectedRoute onlyUnAuth>
-              <Register />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path='/forgot-password'
-          element={
-            <ProtectedRoute onlyUnAuth>
-              <ForgotPassword />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path='/reset-password'
-          element={
-            <ProtectedRoute onlyUnAuth>
-              <ResetPassword />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route path='/profile'>
-          <Route
-            index
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route path='orders'>
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <ProfileOrders />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path=':number'
-              element={
-                <ProtectedRoute>
-                  <OrderInfo />
-                </ProtectedRoute>
-              }
-            />
+        <Route element={<ProtectedRoute />}>
+          <Route path='/profile'>
+            <Route index element={<Profile />} />
+            <Route path='orders'>
+              <Route index element={<ProfileOrders />} />
+              <Route path=':number' element={<OrderInfo />} />
+            </Route>
           </Route>
         </Route>
 
@@ -121,7 +72,10 @@ export const Router = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='Заголовок' onClose={() => navigate(-1)}>
+              <Modal
+                title='Детали заказа'
+                onClose={() => navigate('/profile/orders')}
+              >
                 <OrderInfo />
               </Modal>
             }

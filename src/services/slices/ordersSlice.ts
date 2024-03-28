@@ -6,25 +6,26 @@ import { TConstructorItems } from './burgersSlice';
 type TOrdersState = {
   error: string | null | undefined;
   orderResponse: {
-    success: boolean;
     order: TOrder | null;
   };
+  orderRequest: boolean;
 };
 
 const initialState: TOrdersState = {
   error: null,
   orderResponse: {
-    success: false,
     order: null
-  }
+  },
+  orderRequest: false
 };
 
 export const orderBurger = createAsyncThunk(
   'orders/orderBurger',
   async (items: TConstructorItems) => {
-    let orderData;
+    let orderData: string[] = [];
     if (items.bun && items.ingredients.length > 0) {
-      orderData = [items.bun._id];
+      orderData.push(items.bun._id);
+      orderData.push(items.bun._id);
       items.ingredients.forEach((item) => orderData.push(item._id));
     }
     return orderBurgerApi(orderData!);
@@ -36,25 +37,25 @@ const ordersSlice = createSlice({
   initialState,
   reducers: {
     resetOrderResponse: (state) => {
-      state.orderResponse = {
-        success: false,
-        order: null
-      };
+      state.orderResponse.order = null;
     }
   },
   selectors: {
-    getOrderResponseSelector: (state) => state.orderResponse
+    getOrderResponseSelector: (state) => state.orderResponse.order,
+    getOrderRequestSelector: (state) => state.orderRequest
   },
   extraReducers: (builder) => {
     builder
       .addCase(orderBurger.pending, (state) => {
         state.error = null;
+        state.orderRequest = true;
       })
       .addCase(orderBurger.rejected, (state, action) => {
         state.error = action.error.message;
+        state.orderRequest = false;
       })
       .addCase(orderBurger.fulfilled, (state, action) => {
-        state.orderResponse.success = action.payload.success;
+        state.orderRequest = false;
         state.orderResponse.order = action.payload.order;
       });
   }
@@ -62,6 +63,7 @@ const ordersSlice = createSlice({
 
 export const ordersReducer = ordersSlice.reducer;
 
-export const { getOrderResponseSelector } = ordersSlice.selectors;
+export const { getOrderResponseSelector, getOrderRequestSelector } =
+  ordersSlice.selectors;
 
 export const { resetOrderResponse } = ordersSlice.actions;
