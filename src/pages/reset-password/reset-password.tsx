@@ -2,14 +2,13 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ResetPasswordUI } from '@ui-pages';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import {
   isErrorSelector,
   isLoadingSelector,
   resetErrorMessage,
   resetPassword
 } from '@slices';
-import { useSelector } from 'react-redux';
 import { Preloader } from '@ui';
 
 export const ResetPassword: FC = () => {

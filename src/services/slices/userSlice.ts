@@ -10,25 +10,9 @@ import {
   resetPasswordApi,
   updateUserApi
 } from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
 import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
-
-type TUserState = {
-  isAuthChecked: boolean;
-  userData: TUser | null;
-  userOrders: TOrder[] | [];
-  error: boolean | null;
-  isLoading: boolean;
-};
-
-const initialState: TUserState = {
-  isAuthChecked: false,
-  userData: null,
-  userOrders: [],
-  error: null,
-  isLoading: false
-};
 
 export const loginUser = createAsyncThunk(
   'user/loginUser',
@@ -78,13 +62,9 @@ export const checkUserAuth = createAsyncThunk(
   'user/checkUser',
   (_, { dispatch }) => {
     if (getCookie('accessToken')) {
-      dispatch(getUser())
-        .then(() => {
-          dispatch(authChecked());
-        })
-        .catch(() => {
-          console.log('Ошибка аутентификации');
-        });
+      dispatch(getUser()).then((data) => {
+        if (data.payload) dispatch(authChecked());
+      });
     }
   }
 );
@@ -92,17 +72,29 @@ export const checkUserAuth = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   'user/logoutUser',
   (_, { dispatch }) => {
-    logoutApi()
-      .then(() => {
-        localStorage.clear();
-        deleteCookie('accessToken');
-        dispatch(userLogout());
-      })
-      .catch(() => {
-        console.log('Ошибка выполнения выхода');
-      });
+    logoutApi().then(() => {
+      localStorage.clear();
+      deleteCookie('accessToken');
+      dispatch(userLogout());
+    });
   }
 );
+
+type TUserState = {
+  isAuthChecked: boolean;
+  userData: TUser | null;
+  userOrders: TOrder[] | [];
+  error: boolean | null;
+  isLoading: boolean;
+};
+
+const initialState: TUserState = {
+  isAuthChecked: false,
+  userData: null,
+  userOrders: [],
+  error: null,
+  isLoading: false
+};
 
 const userSlice = createSlice({
   name: 'user',
@@ -128,24 +120,11 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state) => {
-        state.error = null;
-        state.isLoading = true;
-      })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.userData = { ...action.payload };
         state.isAuthChecked = true;
         state.error = null;
         state.isLoading = false;
-      })
-      .addCase(loginUser.rejected, (state) => {
-        state.error = true;
-        state.isAuthChecked = false;
-        state.isLoading = false;
-      })
-      .addCase(registerUser.pending, (state) => {
-        state.error = null;
-        state.isLoading = true;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.userData = { ...action.payload };
@@ -153,76 +132,64 @@ const userSlice = createSlice({
         state.error = null;
         state.isLoading = false;
       })
-      .addCase(registerUser.rejected, (state) => {
-        state.error = true;
-        state.isAuthChecked = false;
-        state.isLoading = false;
-      })
-      .addCase(getUser.pending, (state) => {
-        state.error = null;
-        state.isLoading = true;
-      })
       .addCase(getUser.fulfilled, (state, action) => {
         state.userData = { ...action.payload.user };
         state.isAuthChecked = true;
         state.error = null;
         state.isLoading = false;
       })
-      .addCase(getUser.rejected, (state) => {
-        state.error = true;
-        state.isAuthChecked = false;
-        state.isLoading = false;
-      })
-      .addCase(updateUser.pending, (state) => {
-        state.error = null;
-        state.isLoading = true;
-      })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.userData = { ...action.payload.user };
         state.error = null;
         state.isLoading = false;
-      })
-      .addCase(updateUser.rejected, (state) => {
-        state.error = true;
-        state.isLoading = false;
-      })
-      .addCase(getUserOrders.pending, (state) => {
-        state.error = null;
-        state.isLoading = true;
       })
       .addCase(getUserOrders.fulfilled, (state, action) => {
         state.userOrders = action.payload.orders;
         state.error = null;
         state.isLoading = false;
       })
-      .addCase(getUserOrders.rejected, (state) => {
-        state.error = true;
-        state.isLoading = false;
-      })
-      .addCase(forgotPassword.pending, (state) => {
-        state.error = null;
-        state.isLoading = true;
-      })
-      .addCase(forgotPassword.fulfilled, (state) => {
-        state.error = null;
-        state.isLoading = false;
-      })
-      .addCase(forgotPassword.rejected, (state) => {
-        state.error = true;
-        state.isLoading = false;
-      })
-      .addCase(resetPassword.pending, (state) => {
-        state.error = null;
-        state.isLoading = true;
-      })
-      .addCase(resetPassword.fulfilled, (state) => {
-        state.error = null;
-        state.isLoading = false;
-      })
-      .addCase(resetPassword.rejected, (state) => {
-        state.error = true;
-        state.isLoading = false;
-      });
+      .addMatcher(
+        isAnyOf(forgotPassword.fulfilled, resetPassword.fulfilled),
+        (state) => {
+          state.error = null;
+          state.isLoading = false;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          loginUser.pending,
+          registerUser.pending,
+          getUser.pending,
+          updateUser.pending,
+          getUserOrders.pending,
+          forgotPassword.pending,
+          resetPassword.pending
+        ),
+        (state) => {
+          state.error = null;
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        isAnyOf(loginUser.rejected, registerUser.rejected, getUser.rejected),
+        (state) => {
+          state.error = true;
+          state.isAuthChecked = false;
+          state.isLoading = false;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          updateUser.rejected,
+          getUserOrders.rejected,
+          forgotPassword.rejected,
+          resetPassword.rejected
+        ),
+        (state) => {
+          state.error = true;
+          state.isLoading = false;
+        }
+      );
   }
 });
 
