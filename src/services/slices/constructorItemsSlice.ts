@@ -8,7 +8,7 @@ export type TConstructorItems = {
   ingredients: Array<TConstructorIngredient> | [];
 };
 
-type TConstructorItemsState = {
+export type TConstructorItemsState = {
   loading: boolean;
   error: string | null | undefined;
   constructorItems: TConstructorItems;
