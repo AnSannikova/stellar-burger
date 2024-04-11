@@ -14,7 +14,7 @@ export type TConstructorItemsState = {
   constructorItems: TConstructorItems;
 };
 
-const initialState: TConstructorItemsState = {
+export const initialState: TConstructorItemsState = {
   loading: true,
   error: null,
   constructorItems: {
