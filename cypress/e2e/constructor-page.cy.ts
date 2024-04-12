@@ -69,6 +69,9 @@ describe('Тестирование главной страницы', () => {
         'getUser'
       );
       cy.wait('@getUser');
+      cy.intercept('POST', 'api/orders', { fixture: 'order.json' }).as(
+        'getOrder'
+      );
     });
 
     afterEach(() => {
@@ -82,10 +85,6 @@ describe('Тестирование главной страницы', () => {
       cy.clickButton('@testSauce');
 
       cy.get('[data-cy="orderButton"]').should('be.enabled').click();
-
-      cy.intercept('POST', 'api/orders', { fixture: 'order.json' }).as(
-        'getOrder'
-      );
       cy.wait('@getOrder');
 
       cy.get('[data-cy="modal"]').as('modal');
