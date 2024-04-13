@@ -8,13 +8,13 @@ export type TConstructorItems = {
   ingredients: Array<TConstructorIngredient> | [];
 };
 
-type TConstructorItemsState = {
+export type TConstructorItemsState = {
   loading: boolean;
   error: string | null | undefined;
   constructorItems: TConstructorItems;
 };
 
-const initialState: TConstructorItemsState = {
+export const initialState: TConstructorItemsState = {
   loading: true,
   error: null,
   constructorItems: {
