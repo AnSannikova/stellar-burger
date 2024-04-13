@@ -2,7 +2,6 @@ import { FC, useMemo } from 'react';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import {
-  authCheckedSelector,
   getConstructorItemsSelector,
   getOrderRequestSelector,
   getOrderResponseSelector,

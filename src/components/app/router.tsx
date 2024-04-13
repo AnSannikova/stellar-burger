@@ -1,87 +1,129 @@
-import {
-  ConstructorPage,
-  Feed,
-  ForgotPassword,
-  Login,
-  NotFound404,
-  Profile,
-  ProfileOrders,
-  Register,
-  ResetPassword
-} from '@pages';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { ProtectedRoute } from '../protected-route';
-import { OrderInfo } from '../order-info';
-import { Modal } from '../modal';
-import { IngredientDetails } from '../ingredient-details';
+import { createBrowserRouter } from 'react-router-dom';
+import { ConstructorPage, NotFound404 } from '@pages';
+import { ProtectedRoute } from '@components';
+import { MainLayout } from '../../layouts';
 
-export const Router = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const background = location.state?.background;
-
-  return (
-    <>
-      <Routes location={background || location}>
-        <Route path='*' element={<NotFound404 />} />
-        <Route path='/' element={<ConstructorPage />} />
-
-        <Route path='/feed'>
-          <Route index element={<Feed />} />
-          <Route path=':number' element={<OrderInfo />} />
-        </Route>
-
-        <Route element={<ProtectedRoute onlyUnAuth />}>
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/reset-password' element={<ResetPassword />} />
-        </Route>
-
-        <Route element={<ProtectedRoute />}>
-          <Route path='/profile'>
-            <Route index element={<Profile />} />
-            <Route path='orders'>
-              <Route index element={<ProfileOrders />} />
-              <Route path=':number' element={<OrderInfo />} />
-            </Route>
-          </Route>
-        </Route>
-
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
-      </Routes>
-
-      {background && (
-        <Routes>
-          <Route
-            path='/feed/:number'
-            element={
-              <Modal title='Детали заказа' onClose={() => navigate(-1)}>
-                <OrderInfo />
-              </Modal>
+export const router = createBrowserRouter([
+  {
+    element: <MainLayout />,
+    errorElement: <NotFound404 />,
+    children: [
+      {
+        path: '/',
+        Component: ConstructorPage,
+        children: [
+          {
+            path: 'ingredients/:id',
+            lazy: async () => {
+              const { Modal, IngredientDetails } = await import('@components');
+              return {
+                element: (
+                  <Modal title='Детали ингредиента'>
+                    <IngredientDetails />
+                  </Modal>
+                )
+              };
             }
-          />
-          <Route
-            path='/ingredients/:id'
-            element={
-              <Modal title='Детали ингредиента' onClose={() => navigate(-1)}>
-                <IngredientDetails />
-              </Modal>
+          }
+        ]
+      },
+      {
+        path: '/feed',
+        lazy: async () => {
+          const { Feed } = await import('@pages');
+          return { Component: Feed };
+        },
+        children: [
+          {
+            path: ':number',
+            lazy: async () => {
+              const { Modal, OrderInfo } = await import('@components');
+              return {
+                element: (
+                  <Modal title='Детали заказа'>
+                    <OrderInfo />
+                  </Modal>
+                )
+              };
             }
-          />
-          <Route
-            path='/profile/orders/:number'
-            element={
-              <Modal
-                title='Детали заказа'
-                onClose={() => navigate('/profile/orders')}
-              >
-                <OrderInfo />
-              </Modal>
+          }
+        ]
+      },
+      {
+        element: <ProtectedRoute onlyUnAuth />,
+        children: [
+          {
+            path: '/login',
+            lazy: async () => {
+              const { Login } = await import('@pages');
+              return { Component: Login };
             }
-          />
-        </Routes>
-      )}
-    </>
-  );
-};
+          },
+          {
+            path: '/register',
+            lazy: async () => {
+              const { Register } = await import('@pages');
+              return { Component: Register };
+            }
+          },
+          {
+            path: '/forgot-password',
+            lazy: async () => {
+              const { ForgotPassword } = await import('@pages');
+              return { Component: ForgotPassword };
+            }
+          },
+          {
+            path: '/reset-password',
+            lazy: async () => {
+              const { ResetPassword } = await import('@pages');
+              return { Component: ResetPassword };
+            }
+          }
+        ]
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: '/profile',
+            children: [
+              {
+                index: true,
+                lazy: async () => {
+                  const { Profile } = await import('@pages');
+                  return { Component: Profile };
+                }
+              },
+              {
+                path: 'orders',
+                lazy: async () => {
+                  const { ProfileOrders } = await import('@pages');
+                  return { Component: ProfileOrders };
+                },
+                children: [
+                  {
+                    path: ':number',
+                    lazy: async () => {
+                      const { Modal, OrderInfo } = await import('@components');
+                      return {
+                        element: (
+                          <Modal
+                            title='Детали заказа'
+                            onClosePath='/profile/orders'
+                          >
+                            <OrderInfo />
+                          </Modal>
+                        )
+                      };
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]);

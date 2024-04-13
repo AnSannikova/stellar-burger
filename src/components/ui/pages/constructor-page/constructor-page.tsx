@@ -5,6 +5,7 @@ import styles from './constructor-page.module.css';
 import { ConstructorPageUIProps } from './type';
 import { Preloader } from '@ui';
 import { BurgerIngredients, BurgerConstructor } from '@components';
+import { Outlet } from 'react-router-dom';
 
 export const ConstructorPageUI: FC<ConstructorPageUIProps> = ({
   isIngredientsLoading
@@ -13,7 +14,7 @@ export const ConstructorPageUI: FC<ConstructorPageUIProps> = ({
     {isIngredientsLoading ? (
       <Preloader />
     ) : (
-      <main className={styles.containerMain}>
+      <>
         <h1
           className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}
         >
@@ -23,7 +24,8 @@ export const ConstructorPageUI: FC<ConstructorPageUIProps> = ({
           <BurgerIngredients />
           <BurgerConstructor />
         </div>
-      </main>
+        <Outlet />
+      </>
     )}
   </>
 );

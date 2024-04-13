@@ -1,11 +1,10 @@
 import '../../index.css';
-import styles from './app.module.css';
 
-import { AppHeader } from '@components';
-import { Router } from './router';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { checkUserAuth, getBurgerIngredients } from '@slices';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -15,12 +14,7 @@ const App = () => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  return (
-    <div className={styles.app}>
-      <AppHeader />
-      <Router />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

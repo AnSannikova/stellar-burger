@@ -11,7 +11,7 @@ export const ForgotPasswordUI: FC<PageUIProps> = ({
   setEmail,
   handleSubmit
 }) => (
-  <main className={styles.container}>
+  <>
     <div className={`pt-6 ${styles.wrapCenter}`}>
       <h3 className='pb-6 text text_type_main-medium'>Восстановление пароля</h3>
       <form
@@ -54,5 +54,5 @@ export const ForgotPasswordUI: FC<PageUIProps> = ({
         </Link>
       </div>
     </div>
-  </main>
+  </>
 );

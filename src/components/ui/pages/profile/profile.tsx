@@ -15,7 +15,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
   handleCancel,
   handleInputChange
 }) => (
-  <main className={`${commonStyles.container}`}>
+  <div className={`${commonStyles.container}`}>
     <div className={`mt-30 mr-15 ${styles.menu}`}>
       <ProfileMenu />
     </div>
@@ -87,5 +87,5 @@ export const ProfileUI: FC<ProfileUIProps> = ({
         )}
       </>
     </form>
-  </main>
+  </div>
 );

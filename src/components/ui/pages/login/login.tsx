@@ -16,7 +16,7 @@ export const LoginUI: FC<LoginUIProps> = ({
   password,
   setPassword
 }) => (
-  <main className={styles.container}>
+  <>
     <div className={`pt-6 ${styles.wrapCenter}`}>
       <h3 className='pb-6 text text_type_main-medium'>Вход</h3>
       <form
@@ -74,5 +74,5 @@ export const LoginUI: FC<LoginUIProps> = ({
         </Link>
       </div>
     </div>
-  </main>
+  </>
 );
