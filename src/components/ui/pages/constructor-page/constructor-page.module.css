@@ -11,3 +11,10 @@
   height: 100%;
   overflow: hidden;
 }
+
+/* @media (width <= 1250px) {
+  .main {
+    flex-direction: column-reverse;
+    overflow-y: scroll;
+  }
+} */

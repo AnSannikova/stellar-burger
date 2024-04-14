@@ -47,6 +47,10 @@ const Column: FC<TColumnProps> = ({ title, content }) => (
     <h3 className={`pt-15 text text_type_main-medium ${styles.title}`}>
       {title}:
     </h3>
-    <p className={`text text_type_digits-large ${styles.content}`}>{content}</p>
+    <p
+      className={`text text_type_digits-large ${styles.text_shadow} ${styles.content}`}
+    >
+      {content}
+    </p>
   </>
 );
