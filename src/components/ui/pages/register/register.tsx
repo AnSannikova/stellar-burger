@@ -1,22 +1,20 @@
 import { FC, useState } from 'react';
-import {
-  Input,
-  Button,
-  PasswordInput
-} from '@zlden/react-developer-burger-ui-components';
+import { Input, Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { RegisterUIProps } from './type';
+import { PasswordInput } from '../../password-input';
+import { useValidate } from '../../../../hooks/useValidate';
 
 export const RegisterUI: FC<RegisterUIProps> = ({
   errorText,
   email,
-  setEmail,
-  handleSubmit,
   password,
-  setPassword,
   userName,
-  setUserName
+  repPassword,
+  errors,
+  handleInputChange,
+  handleSubmit
 }) => (
   <>
     <div className={`pt-6 ${styles.wrapCenter}`}>
@@ -31,11 +29,11 @@ export const RegisterUI: FC<RegisterUIProps> = ({
             <Input
               type='text'
               placeholder='Имя'
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={handleInputChange}
               value={userName}
               name='name'
-              error={false}
-              errorText=''
+              error={errors.name}
+              errorText='Только латинские, кириллические буквы, знаки дефиса и пробелы'
               size='default'
             />
           </div>
@@ -43,19 +41,30 @@ export const RegisterUI: FC<RegisterUIProps> = ({
             <Input
               type='email'
               placeholder='E-mail'
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleInputChange}
               value={email}
-              name={'email'}
-              error={false}
-              errorText=''
+              name='email'
+              error={errors.email}
+              errorText='Некоректный формат адреса'
               size={'default'}
             />
           </div>
           <div className='pb-6'>
             <PasswordInput
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              name='password'
+              password={password}
+              onChange={handleInputChange}
+              error={errors.password}
+              errorText='Не менее 6 символов, включая заглавные буквы, цифры и спецфисмволы'
+            />
+          </div>
+          <div className='pb-6'>
+            <PasswordInput
+              name='repPassword'
+              placeholder='Повторите пароль'
+              password={repPassword}
+              error={errors.repPassword}
+              errorText='Пароли не совпадают'
+              onChange={handleInputChange}
             />
           </div>
           <div className={`pb-6 ${styles.button}`}>
@@ -63,7 +72,9 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               type='primary'
               size='medium'
               htmlType='submit'
-              disabled={userName && email && password ? false : true}
+              disabled={
+                userName && email && password && repPassword ? false : true
+              }
             >
               Зарегистрироваться
             </Button>

@@ -1,19 +1,27 @@
 import { FC } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { useParams } from 'react-router-dom';
-import { useSelector } from '../../services/store';
-import { getIngredientsSelector } from '@slices';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../services/store';
+import { addConstructorItem, getIngredientsSelector } from '@slices';
 
 export const IngredientDetails: FC = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const ingredientData = useSelector(getIngredientsSelector).find(
     (item) => item._id === id
   );
+  const handleAdd = () => {
+    dispatch(addConstructorItem(ingredientData!));
+    navigate(-1);
+  };
 
   if (!ingredientData) {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData} />;
+  return (
+    <IngredientDetailsUI onClick={handleAdd} ingredientData={ingredientData} />
+  );
 };

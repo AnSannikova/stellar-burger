@@ -2,12 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-bottom: 16px;
 }
-
-.element:last-child {
-  margin-bottom: 0;
-}
-
 .element_fullwidth {
   display: flex;
   flex-direction: column;

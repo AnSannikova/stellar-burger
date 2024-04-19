@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEvent, FC, useRef } from 'react';
 import {
   Input,
   Button,
@@ -7,6 +7,7 @@ import {
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { LoginUIProps } from './type';
+import { useValidate } from '../../../../hooks/useValidate';
 
 export const LoginUI: FC<LoginUIProps> = ({
   email,
@@ -26,16 +27,18 @@ export const LoginUI: FC<LoginUIProps> = ({
       >
         <>
           <div className='pb-6'>
-            <Input
-              type='email'
-              placeholder='E-mail'
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              name='email'
-              error={false}
-              errorText=''
-              size='default'
-            />
+            {/* <Input
+                type='email'
+                placeholder='E-mail'
+                onChange={(e) => setEmail?setEmail(e.target.value)}
+                value={email}
+                name='email'
+                error={emailError}
+                errorText='Некорректный формат e-mail'
+                size='default'
+                // onBlur={onBlurEmail}
+                // onFocus={onFocusEmail}
+              /> */}
           </div>
           <div className='pb-6'>
             <PasswordInput
@@ -61,6 +64,7 @@ export const LoginUI: FC<LoginUIProps> = ({
           )}
         </>
       </form>
+
       <div className={`pb-4 ${styles.question} text text_type_main-default`}>
         Вы - новый пользователь?
         <Link to='/register' className={`pl-2 ${styles.link}`}>

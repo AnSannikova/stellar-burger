@@ -175,7 +175,6 @@ const userSlice = createSlice({
         isAnyOf(loginUser.rejected, registerUser.rejected, getUser.rejected),
         (state) => {
           state.error = true;
-          state.isAuthChecked = false;
           state.isLoading = false;
         }
       )

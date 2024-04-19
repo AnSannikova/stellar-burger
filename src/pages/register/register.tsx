@@ -8,22 +8,47 @@ import {
   resetErrorMessage
 } from '@slices';
 import { Preloader } from '@ui';
+import { useForm } from '../../hooks/useForm';
+import { useValidate } from '../../hooks/useValidate';
 
 export const Register: FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const isError = useSelector(isErrorSelector);
   const isLoading = useSelector(isLoadingSelector);
+
+  const [formData, handleInputChange, handleSubmit] = useForm({
+    name: '',
+    email: '',
+    password: '',
+    repPassword: ''
+  });
+
+  const [errors, setErrors] = useState({
+    name: false,
+    email: false,
+    password: false,
+    repPassword: false
+  });
+  // const [errors, validate] = useValidate({
+  //   name: false,
+  //   email: false,
+  //   password: false,
+  //   repPassword: false
+  // });
 
   useEffect(() => {
     dispatch(resetErrorMessage());
   }, [dispatch]);
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    dispatch(registerUser({ name, email, password }));
+  const onSubmit = (e: SyntheticEvent) => {
+    handleSubmit(e);
+    // dispatch(
+    //   registerUser({
+    //     name: formData.name,
+    //     email: formData.email,
+    //     password: formData.password
+    //   })
+    // );
   };
 
   if (isLoading) return <Preloader />;
@@ -31,13 +56,13 @@ export const Register: FC = () => {
   return (
     <RegisterUI
       errorText={isError ? 'Пользователь с таким адресом уже существует' : ''}
-      email={email}
-      userName={name}
-      password={password}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      setUserName={setName}
-      handleSubmit={handleSubmit}
+      email={formData.email}
+      userName={formData.name}
+      password={formData.password}
+      repPassword={formData.repPassword}
+      errors={errors}
+      handleInputChange={handleInputChange}
+      handleSubmit={onSubmit}
     />
   );
 };
