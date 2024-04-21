@@ -1,10 +1,9 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Input, Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { RegisterUIProps } from './type';
 import { PasswordInput } from '../../password-input';
-import { useValidate } from '../../../../hooks/useValidate';
 
 export const RegisterUI: FC<RegisterUIProps> = ({
   errorText,
@@ -14,7 +13,8 @@ export const RegisterUI: FC<RegisterUIProps> = ({
   repPassword,
   errors,
   handleInputChange,
-  handleSubmit
+  handleSubmit,
+  onFocus
 }) => (
   <>
     <div className={`pt-6 ${styles.wrapCenter}`}>
@@ -23,6 +23,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
         className={`pb-15 ${styles.form}`}
         name='register'
         onSubmit={handleSubmit}
+        noValidate
       >
         <>
           <div className='pb-6'>
@@ -35,6 +36,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               error={errors.name}
               errorText='Только латинские, кириллические буквы, знаки дефиса и пробелы'
               size='default'
+              onFocus={onFocus}
             />
           </div>
           <div className='pb-6'>
@@ -47,6 +49,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               error={errors.email}
               errorText='Некоректный формат адреса'
               size={'default'}
+              onFocus={onFocus}
             />
           </div>
           <div className='pb-6'>
@@ -54,7 +57,8 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               password={password}
               onChange={handleInputChange}
               error={errors.password}
-              errorText='Не менее 6 символов, включая заглавные буквы, цифры и спецфисмволы'
+              errorText='Не менее 6 символов, включая заглавные буквы и цифры'
+              onFocus={onFocus}
             />
           </div>
           <div className='pb-6'>
@@ -65,6 +69,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               error={errors.repPassword}
               errorText='Пароли не совпадают'
               onChange={handleInputChange}
+              onFocus={onFocus}
             />
           </div>
           <div className={`pb-6 ${styles.button}`}>

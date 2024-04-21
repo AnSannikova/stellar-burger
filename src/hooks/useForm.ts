@@ -1,15 +1,54 @@
 import { ChangeEvent, SyntheticEvent, useState } from 'react';
+import { isValidForm, isValidInput } from '../utils/validation';
+
+const initialStateErrors = (initialState: { [key: string]: string }) => {
+  let state: { [key: string]: boolean } = {};
+  for (const key in initialState) {
+    state = { ...state, [key]: false };
+  }
+  return state;
+};
 
 export const useForm = (initialState: { [key: string]: string }) => {
   const [formData, setFormData] = useState(initialState);
+  const [inputErrors, setInputErrors] = useState(
+    initialStateErrors(initialState)
+  );
+  const isValid = isValidForm(inputErrors);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+
+    setFormData({ ...formData, [inputName]: inputValue });
+
+    if (
+      inputName === 'repPassword' ||
+      (inputName === 'password' &&
+        'repPassword' in formData &&
+        formData.repPassword.length > 0)
+    ) {
+      setInputErrors({
+        ...inputErrors,
+        repPassword: inputValue !== formData.password
+      });
+    } else {
+      setInputErrors({
+        ...inputErrors,
+        [inputName]: !isValidInput(inputName, inputValue)
+      });
+    }
   };
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
   };
 
-  return [formData, handleInputChange, handleSubmit] as const;
+  return [
+    formData,
+    handleInputChange,
+    handleSubmit,
+    inputErrors,
+    isValid
+  ] as const;
 };

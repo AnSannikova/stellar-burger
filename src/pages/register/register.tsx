@@ -9,19 +9,19 @@ import {
 } from '@slices';
 import { Preloader } from '@ui';
 import { useForm } from '../../hooks/useForm';
-import { useValidate } from '../../hooks/useValidate';
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
   const isError = useSelector(isErrorSelector);
   const isLoading = useSelector(isLoadingSelector);
 
-  const [formData, handleInputChange, handleSubmit] = useForm({
-    name: '',
-    email: '',
-    password: '',
-    repPassword: ''
-  });
+  const [formData, handleInputChange, handleSubmit, inputErrors, isValid] =
+    useForm({
+      name: '',
+      email: '',
+      password: '',
+      repPassword: ''
+    });
 
   const [errors, setErrors] = useState({
     name: false,
@@ -29,12 +29,6 @@ export const Register: FC = () => {
     password: false,
     repPassword: false
   });
-  // const [errors, validate] = useValidate({
-  //   name: false,
-  //   email: false,
-  //   password: false,
-  //   repPassword: false
-  // });
 
   useEffect(() => {
     dispatch(resetErrorMessage());
@@ -42,13 +36,19 @@ export const Register: FC = () => {
 
   const onSubmit = (e: SyntheticEvent) => {
     handleSubmit(e);
-    // dispatch(
-    //   registerUser({
-    //     name: formData.name,
-    //     email: formData.email,
-    //     password: formData.password
-    //   })
-    // );
+    setErrors({ ...errors, ...inputErrors });
+    if (isValid)
+      dispatch(
+        registerUser({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        })
+      );
+  };
+
+  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setErrors({ ...errors, [e.target.name]: false });
   };
 
   if (isLoading) return <Preloader />;
@@ -61,6 +61,7 @@ export const Register: FC = () => {
       password={formData.password}
       repPassword={formData.repPassword}
       errors={errors}
+      onFocus={onFocus}
       handleInputChange={handleInputChange}
       handleSubmit={onSubmit}
     />

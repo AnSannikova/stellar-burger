@@ -1,21 +1,18 @@
-import { ChangeEvent, FC, useRef } from 'react';
-import {
-  Input,
-  Button,
-  PasswordInput
-} from '@zlden/react-developer-burger-ui-components';
+import { FC } from 'react';
+import { Input, Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { LoginUIProps } from './type';
-import { useValidate } from '../../../../hooks/useValidate';
+import { PasswordInput } from '../../password-input';
 
 export const LoginUI: FC<LoginUIProps> = ({
   email,
-  setEmail,
   errorText,
   handleSubmit,
   password,
-  setPassword
+  handleInputChange,
+  errors,
+  onFocus
 }) => (
   <>
     <div className={`pt-6 ${styles.wrapCenter}`}>
@@ -24,27 +21,29 @@ export const LoginUI: FC<LoginUIProps> = ({
         className={`pb-15 ${styles.form}`}
         name='login'
         onSubmit={handleSubmit}
+        noValidate
       >
         <>
           <div className='pb-6'>
-            {/* <Input
-                type='email'
-                placeholder='E-mail'
-                onChange={(e) => setEmail?setEmail(e.target.value)}
-                value={email}
-                name='email'
-                error={emailError}
-                errorText='Некорректный формат e-mail'
-                size='default'
-                // onBlur={onBlurEmail}
-                // onFocus={onFocusEmail}
-              /> */}
+            <Input
+              type='email'
+              placeholder='E-mail'
+              onChange={handleInputChange}
+              value={email}
+              name='email'
+              error={errors.email}
+              errorText='Некоректный формат адреса'
+              size={'default'}
+              onFocus={onFocus}
+            />
           </div>
           <div className='pb-6'>
             <PasswordInput
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              name='password'
+              password={password}
+              onChange={handleInputChange}
+              error={errors.password}
+              errorText='Не менее 6 символов, включая заглавные буквы и цифры'
+              onFocus={onFocus}
             />
           </div>
           <div className={`pb-6 ${styles.button}`}>

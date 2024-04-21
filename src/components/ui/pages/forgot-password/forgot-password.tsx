@@ -8,8 +8,10 @@ import { PageUIProps } from '../common-type';
 export const ForgotPasswordUI: FC<PageUIProps> = ({
   errorText,
   email,
-  setEmail,
-  handleSubmit
+  handleSubmit,
+  handleInputChange,
+  errors,
+  onFocus
 }) => (
   <>
     <div className={`pt-6 ${styles.wrapCenter}`}>
@@ -18,18 +20,20 @@ export const ForgotPasswordUI: FC<PageUIProps> = ({
         className={`pb-15 ${styles.form}`}
         name='login'
         onSubmit={handleSubmit}
+        noValidate
       >
         <div className='pb-6'>
-          {/* <Input
+          <Input
             type='email'
-            placeholder='Укажите e-mail'
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder='E-mail'
+            onChange={handleInputChange}
             value={email}
             name='email'
-            error={false}
-            errorText=''
-            size='default'
-          /> */}
+            error={errors.email}
+            errorText='Некоректный формат адреса'
+            size={'default'}
+            onFocus={onFocus}
+          />
         </div>
         <div className={`pb-6 ${styles.button}`}>
           <Button

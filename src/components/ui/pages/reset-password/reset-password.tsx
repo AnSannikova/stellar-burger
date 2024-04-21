@@ -1,20 +1,18 @@
 import { FC } from 'react';
-import {
-  Input,
-  Button,
-  PasswordInput
-} from '@zlden/react-developer-burger-ui-components';
+import { Input, Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { ResetPasswordUIProps } from './type';
+import { PasswordInput } from '../../password-input';
 
 export const ResetPasswordUI: FC<ResetPasswordUIProps> = ({
   errorText,
   password,
-  setPassword,
   handleSubmit,
   token,
-  setToken
+  handleInputChange,
+  errors,
+  onFocus
 }) => (
   <>
     <div className={`pt-6 ${styles.wrapCenter}`}>
@@ -26,22 +24,24 @@ export const ResetPasswordUI: FC<ResetPasswordUIProps> = ({
       >
         <div className='pb-6'>
           <PasswordInput
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            name='password'
-            placeholder='Новый пароль'
+            password={password}
+            onChange={handleInputChange}
+            error={errors.password}
+            errorText='Не менее 6 символов, включая заглавные буквы и цифры'
+            onFocus={onFocus}
           />
         </div>
         <div className='pb-6'>
           <Input
             type='text'
             placeholder='Введите код из письма'
-            onChange={(e) => setToken(e.target.value)}
+            onChange={handleInputChange}
             value={token}
             name='token'
-            error={false}
+            error={errors.token}
             errorText=''
-            size='default'
+            size={'default'}
+            onFocus={onFocus}
           />
         </div>
         <div className={`pb-6 ${styles.button}`}>

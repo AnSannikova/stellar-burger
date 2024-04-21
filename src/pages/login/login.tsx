@@ -8,11 +8,19 @@ import {
   resetErrorMessage
 } from '@slices';
 import { Preloader } from '@ui';
+import { useForm } from '../../hooks/useForm';
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, handleInputChange, handleSubmit, inputErrors, isValid] =
+    useForm({
+      email: '',
+      password: ''
+    });
+  const [errors, setErrors] = useState({
+    email: false,
+    password: false
+  });
   const isError = useSelector(isErrorSelector);
   const isLoading = useSelector(isLoadingSelector);
 
@@ -20,9 +28,17 @@ export const Login: FC = () => {
     dispatch(resetErrorMessage());
   }, [dispatch]);
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    dispatch(loginUser({ email, password }));
+  const onSubmit = (e: SyntheticEvent) => {
+    handleSubmit(e);
+    setErrors({ ...errors, ...inputErrors });
+    if (isValid)
+      dispatch(
+        loginUser({ email: formData.email, password: formData.password })
+      );
+  };
+
+  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setErrors({ ...errors, [e.target.name]: false });
   };
 
   if (isLoading) return <Preloader />;
@@ -30,11 +46,12 @@ export const Login: FC = () => {
   return (
     <LoginUI
       errorText={isError ? 'Электронный адрес или пароль введены неверно' : ''}
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
-      handleSubmit={handleSubmit}
+      email={formData.email}
+      password={formData.password}
+      errors={errors}
+      handleSubmit={onSubmit}
+      handleInputChange={handleInputChange}
+      onFocus={onFocus}
     />
   );
 };

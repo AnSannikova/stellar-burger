@@ -3,7 +3,7 @@ import {
   emailPattern,
   namePattern,
   passwordPattern
-} from '../utils/validationPatterns';
+} from '../utils/validation';
 
 // export const useValidate = () => {
 //   const [error, setError] = useState(false);
@@ -32,6 +32,25 @@ import {
 //   return [error, validate] as const;
 // };
 
+const checkValue = (name: string, value: string) => {
+  let pattern: RegExp;
+  switch (name) {
+    case 'email':
+      pattern = emailPattern;
+      break;
+    case 'password':
+      pattern = passwordPattern;
+      break;
+    case 'name':
+      pattern = namePattern;
+      break;
+    default:
+      pattern = /.+/;
+  }
+
+  return pattern.test(value);
+};
+
 type TFormData = {
   [key: string]: string;
 };
@@ -55,7 +74,13 @@ export const useValidate = (initialState: { [key: string]: boolean }) => {
         default:
           pattern = /.+/;
       }
-      setErrors({ ...errors, [key]: !pattern.test(formData[key]) });
+      setErrors({ ...errors, [key]: pattern.test(formData[key]) });
+
+      if (key === 'password')
+        setErrors({
+          ...errors,
+          password: checkValue('password', formData[key])
+        });
 
       if (key === 'repPassword')
         setErrors({
@@ -64,6 +89,6 @@ export const useValidate = (initialState: { [key: string]: boolean }) => {
         });
     }
   };
-  console.log(errors);
+
   return [errors, validate] as const;
 };

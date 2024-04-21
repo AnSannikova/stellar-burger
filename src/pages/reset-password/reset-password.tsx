@@ -10,25 +10,43 @@ import {
   resetPassword
 } from '@slices';
 import { Preloader } from '@ui';
+import { useForm } from '../../hooks/useForm';
 
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
+  const [formData, handleInputChange, handleSubmit, inputErrors, isValid] =
+    useForm({
+      password: '',
+      token: ''
+    });
+
+  const [errors, setErrors] = useState({
+    password: false,
+    token: false
+  });
+
   const isError = useSelector(isErrorSelector);
   const isLoading = useSelector(isLoadingSelector);
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    dispatch(resetPassword({ password, token }))
-      .then((data) => {
-        if (data.payload) {
-          localStorage.removeItem('resetPassword');
-          navigate('/login');
-        }
-      })
-      .catch(() => console.log('Ошибка сброса пароля'));
+  const onSubmit = (e: SyntheticEvent) => {
+    handleSubmit(e);
+    setErrors({ ...errors, ...inputErrors });
+    if (isValid)
+      dispatch(
+        resetPassword({ password: formData.password, token: formData.token })
+      )
+        .then((data) => {
+          if (data.payload) {
+            localStorage.removeItem('resetPassword');
+            navigate('/login');
+          }
+        })
+        .catch(() => console.log('Ошибка сброса пароля'));
+  };
+
+  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setErrors({ ...errors, [e.target.name]: false });
   };
 
   useEffect(() => {
@@ -43,11 +61,12 @@ export const ResetPassword: FC = () => {
   return (
     <ResetPasswordUI
       errorText={isError ? 'Указан неверный код подтверждения' : ''}
-      password={password}
-      token={token}
-      setPassword={setPassword}
-      setToken={setToken}
-      handleSubmit={handleSubmit}
+      password={formData.password}
+      token={formData.token}
+      handleSubmit={onSubmit}
+      handleInputChange={handleInputChange}
+      errors={errors}
+      onFocus={onFocus}
     />
   );
 };

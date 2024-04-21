@@ -10,9 +10,17 @@ import {
   resetErrorMessage
 } from '@slices';
 import { Preloader } from '@ui';
+import { useForm } from '../../hooks/useForm';
 
 export const ForgotPassword: FC = () => {
-  const [email, setEmail] = useState('');
+  const [formData, handleInputChange, handleSubmit, inputErrors, isValid] =
+    useForm({
+      email: ''
+    });
+
+  const [errors, setErrors] = useState({
+    email: false
+  });
   const isError = useSelector(isErrorSelector);
   const isLoading = useSelector(isLoadingSelector);
 
@@ -23,14 +31,20 @@ export const ForgotPassword: FC = () => {
     dispatch(resetErrorMessage());
   }, [dispatch]);
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    dispatch(forgotPassword({ email })).then((data) => {
-      if (data.payload) {
-        localStorage.setItem('resetPassword', 'true');
-        navigate('/reset-password', { replace: true });
-      }
-    });
+  const onSubmit = (e: SyntheticEvent) => {
+    handleSubmit(e);
+    setErrors({ ...errors, ...inputErrors });
+    if (isValid)
+      dispatch(forgotPassword({ email: formData.email })).then((data) => {
+        if (data.payload) {
+          localStorage.setItem('resetPassword', 'true');
+          navigate('/reset-password', { replace: true });
+        }
+      });
+  };
+
+  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setErrors({ ...errors, [e.target.name]: false });
   };
 
   if (isLoading) return <Preloader />;
@@ -38,9 +52,11 @@ export const ForgotPassword: FC = () => {
   return (
     <ForgotPasswordUI
       errorText={isError ? 'Электронный адрес не существует или не найден' : ''}
-      email={email}
-      setEmail={setEmail}
-      handleSubmit={handleSubmit}
+      email={formData.email}
+      handleSubmit={onSubmit}
+      handleInputChange={handleInputChange}
+      errors={errors}
+      onFocus={onFocus}
     />
   );
 };
