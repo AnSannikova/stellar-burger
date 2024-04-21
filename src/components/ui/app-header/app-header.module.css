@@ -1,37 +1,55 @@
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--background);
 }
 .menu {
-  display: flex;
-  align-items: center;
   max-width: 1240px;
+  width: 100%;
   height: 56px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .menu_part_left {
   display: flex;
-  flex-basis: 35%;
 }
 
 .link {
   display: flex;
+  align-items: center;
   text-decoration: none;
   color: var(--text-inactive-color);
+  transition: color ease-in 0.2s;
+}
+
+.link:hover {
+  color: var(--text-primary-color);
+  transition: all ease-in 0.2s;
 }
 
 .link_active {
   color: var(--text-primary-color);
+  user-select: none;
+  cursor: default;
 }
 
 .link_position_last {
   display: flex;
   justify-content: flex-end;
-  flex-basis: 35%;
+}
+
+.text_type_link {
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 0;
+  font-weight: normal;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  align-self: center;
+  justify-content: center;
 }

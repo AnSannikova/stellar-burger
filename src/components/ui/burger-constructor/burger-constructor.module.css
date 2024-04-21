@@ -1,5 +1,6 @@
 .burger_constructor {
-  width: 600px;
+  /* min-width: 600px;
+  width: 100%; */
   color: #f2f2f3;
   display: flex;
   flex-direction: column;
@@ -8,7 +9,6 @@
 
 .elements {
   min-height: 100px;
-
   overflow-y: scroll;
   list-style-type: none;
   margin: 0;
@@ -48,6 +48,7 @@
   line-height: 24px;
   color: #f2f2f3;
   margin-left: 44px;
+  /* max-width: 536px; */
 }
 
 .noBunsTop {
@@ -61,16 +62,18 @@
 .element {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .element:last-child {
   margin-bottom: 0;
 }
 
-.element_fullwidth {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 536px;
+@media (width <= 1330px) {
+  .burger_constructor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
 }

@@ -6,8 +6,18 @@
 }
 
 .main {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
   height: 100%;
+  max-width: 1260px;
+  width: 100%;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 40px;
+}
+
+@media (width <= 1330px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
 }
