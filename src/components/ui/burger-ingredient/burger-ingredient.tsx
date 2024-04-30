@@ -25,7 +25,7 @@ export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
           <img className={styles.img} src={image} alt='картинка ингредиента.' />
           <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
         </Link>
-        <div className={`${styles.footer} mt-6`}>
+        <div className={styles.footer}>
           <div className={styles.cost}>
             <p className='text text_type_digits-default mr-2'>{price}</p>
             <CurrencyIcon type='primary' />

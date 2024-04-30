@@ -1,8 +1,8 @@
 import { FC, memo } from 'react';
 import styles from './burger-constructor-element.module.css';
-import { ConstructorElement } from '@zlden/react-developer-burger-ui-components';
 import { BurgerConstructorElementUIProps } from './type';
 import { MoveButton } from '@zlden/react-developer-burger-ui-components';
+import { ConstructorElement } from '@ui';
 
 export const BurgerConstructorElementUI: FC<BurgerConstructorElementUIProps> =
   memo(
@@ -22,7 +22,7 @@ export const BurgerConstructorElementUI: FC<BurgerConstructorElementUIProps> =
           isDownDisabled={index === totalItems - 1}
         />
         <div
-          className={`${styles.element_fullwidth} ml-2`}
+          className={styles.element_fullwidth}
           data-cy='constructorItemFilling'
         >
           <ConstructorElement
@@ -30,6 +30,7 @@ export const BurgerConstructorElementUI: FC<BurgerConstructorElementUIProps> =
             price={ingredient.price}
             thumbnail={ingredient.image}
             handleClose={handleClose}
+            extraClass={styles.constructor_element}
           />
         </div>
       </li>

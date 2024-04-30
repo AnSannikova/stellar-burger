@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import { Input, Button } from '@zlden/react-developer-burger-ui-components';
+import { Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { RegisterUIProps } from './type';
 import { PasswordInput } from '../../password-input';
+import { Input } from '@ui';
 
 export const RegisterUI: FC<RegisterUIProps> = ({
   errorText,
@@ -37,6 +38,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               errorText='Только латинские, кириллические буквы, знаки дефиса и пробелы'
               size='default'
               onFocus={onFocus}
+              extraClass={styles.input}
             />
           </div>
           <div className='pb-6'>
@@ -50,6 +52,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               errorText='Некоректный формат адреса'
               size={'default'}
               onFocus={onFocus}
+              extraClass={styles.input}
             />
           </div>
           <div className='pb-6'>
@@ -59,6 +62,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               error={errors.password}
               errorText='Не менее 6 символов, включая заглавные буквы и цифры'
               onFocus={onFocus}
+              extraClass={styles.input}
             />
           </div>
           <div className='pb-6'>
@@ -70,6 +74,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               errorText='Пароли не совпадают'
               onChange={handleInputChange}
               onFocus={onFocus}
+              extraClass={styles.input}
             />
           </div>
           <div className={`pb-6 ${styles.button}`}>

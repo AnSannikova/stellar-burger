@@ -1,7 +1,8 @@
 import { TICons } from '@zlden/react-developer-burger-ui-components/dist/ui/icons';
-import { Input } from '@zlden/react-developer-burger-ui-components';
+// import { Input } from '@zlden/react-developer-burger-ui-components';
 import { FC, useState } from 'react';
 import { TPasswordInputProps } from './type';
+import { Input } from '@ui';
 
 export const PasswordInput: FC<TPasswordInputProps> = ({
   password,
@@ -11,7 +12,8 @@ export const PasswordInput: FC<TPasswordInputProps> = ({
   name,
   onBlur,
   onFocus,
-  onChange
+  onChange,
+  extraClass
 }) => {
   const [visible, setVisible] = useState(false);
   const [currentIcon, setCurrentIcon] = useState<keyof TICons>('ShowIcon');
@@ -39,6 +41,7 @@ export const PasswordInput: FC<TPasswordInputProps> = ({
       onIconClick={onIconClick}
       onBlur={onBlur}
       onFocus={onFocus}
+      extraClass={extraClass}
     />
   );
 };

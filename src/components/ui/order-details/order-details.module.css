@@ -10,5 +10,21 @@
 }
 
 .text {
+  text-align: center;
+}
+
+.text_accent {
   color: #8585ad;
+}
+
+@media (width < 769px) {
+  .img {
+    margin: 30px 0;
+  }
+}
+
+@media (width < 400px) {
+  .title {
+    font-size: 100px;
+  }
 }

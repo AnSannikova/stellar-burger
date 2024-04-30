@@ -15,3 +15,7 @@ export * from './order-status';
 export * from './orders-list';
 export * from './preloader';
 export * from './profile-menu';
+export * from './protected-route';
+export * from './tab';
+export * from './constructor-element';
+export * from './input';

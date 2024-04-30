@@ -31,7 +31,7 @@
     "react/jsx-boolean-value": ["warn", "never"],
     "react/jsx-key": "warn",
     "react/jsx-max-props-per-line": ["warn", { "maximum": 7 }],
-    "react/jsx-max-depth": ["warn", { "max": 8 }],
+    "react/jsx-max-depth": ["warn", { "max": 9 }],
     "arrow-body-style": ["warn", "as-needed"],
     "dot-notation": "warn",
     "jsx-quotes": ["warn", "prefer-single"],

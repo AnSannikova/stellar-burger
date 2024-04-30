@@ -6,10 +6,11 @@ import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
 import { useSelector } from '../../services/store';
 import { getIngredientsSelector } from '@slices';
-
-const maxIngredients = 6;
+import { useResize } from '../../hooks/useResize';
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
+  const screenSize = useResize();
+  const maxIngredients = screenSize > 576 ? 6 : 4;
   const location = useLocation();
 
   const ingredients: TIngredient[] = useSelector(getIngredientsSelector);

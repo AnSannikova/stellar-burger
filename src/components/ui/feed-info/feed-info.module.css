@@ -6,12 +6,14 @@
 .column {
   display: inline;
   min-width: 50%;
+  padding-right: 16px;
 }
 
 .list {
   list-style: none;
   margin: 0;
   padding-left: 0;
+  padding-top: 16px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -21,6 +23,7 @@
 
 .title {
   margin: 0;
+  padding-top: 20px;
   text-align: left;
 }
 
@@ -33,9 +36,54 @@
   text-align: left;
 }
 
+.text_type_main_medium {
+  font-family: 'Jet Brains Mono';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.text_type_digits {
+  font-family: 'Iceland';
+  font-weight: normal;
+  font-size: 144px;
+  line-height: 0.83;
+}
+
+.text_type_digits_default {
+  font-family: 'Iceland';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 0.86;
+}
+
 .text_shadow {
   text-shadow:
     0 0 16px rgba(51, 51, 255, 0.25),
     0 0 8px rgba(51, 51, 255, 0.25),
     0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+@media (width < 1261px) {
+  .text_type_digits {
+    font-size: 60px;
+  }
+}
+
+@media (width < 769px) {
+  .text_type_main-medium {
+    font-size: 18px;
+  }
+}
+
+@media (width < 600px) {
+  .wrapper {
+    margin: 0 8px;
+  }
+}
+
+@media (width < 426px) {
+  .text_type_digits-default {
+    font-size: 20px;
+  }
 }

@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import { Input, Button } from '@zlden/react-developer-burger-ui-components';
+import { Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { LoginUIProps } from './type';
 import { PasswordInput } from '../../password-input';
+import { Input } from '@ui';
 
 export const LoginUI: FC<LoginUIProps> = ({
   email,
@@ -35,6 +36,7 @@ export const LoginUI: FC<LoginUIProps> = ({
               errorText='Некоректный формат адреса'
               size={'default'}
               onFocus={onFocus}
+              extraClass={styles.input}
             />
           </div>
           <div className='pb-6'>
@@ -44,6 +46,7 @@ export const LoginUI: FC<LoginUIProps> = ({
               error={errors.password}
               errorText='Не менее 6 символов, включая заглавные буквы и цифры'
               onFocus={onFocus}
+              extraClass={styles.input}
             />
           </div>
           <div className={`pb-6 ${styles.button}`}>

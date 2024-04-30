@@ -1,9 +1,9 @@
 import { FC } from 'react';
-
-import { Input, Button } from '@zlden/react-developer-burger-ui-components';
+import { Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { PageUIProps } from '../common-type';
+import { Input } from '@ui';
 
 export const ForgotPasswordUI: FC<PageUIProps> = ({
   errorText,
@@ -33,6 +33,7 @@ export const ForgotPasswordUI: FC<PageUIProps> = ({
             errorText='Некоректный формат адреса'
             size={'default'}
             onFocus={onFocus}
+            extraClass={styles.input}
           />
         </div>
         <div className={`pb-6 ${styles.button}`}>

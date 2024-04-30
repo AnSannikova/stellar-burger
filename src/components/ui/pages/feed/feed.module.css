@@ -1,25 +1,57 @@
 .titleBox {
+  margin: 40px 0 20px;
+}
+
+.title_content {
+  max-width: 580px;
   width: 100%;
-  max-width: 1240px;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: space-between;
 }
 
 .main {
   display: flex;
   justify-content: space-between;
+  gap: 70px;
   height: 100%;
-  width: 1240px;
+  max-width: 1260px;
+  width: 100%;
   overflow: hidden;
 }
 
 .columnOrders {
-  width: 608px;
+  max-width: 608px;
+  width: 100%;
 }
 
 .columnInfo {
   overflow-y: auto;
   overflow-x: hidden;
-  width: 580px;
+  max-width: 580px;
+  width: 100%;
+}
+
+@media (width < 1261px) {
+  .titleBox {
+    display: flex;
+    justify-content: center;
+    margin: 20px 8px;
+  }
+
+  .main {
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    gap: 30px;
+  }
+
+  .columnOrders {
+    order: 1;
+  }
+
+  .columnInfo {
+    overflow: visible;
+  }
 }

@@ -5,11 +5,36 @@
 .main {
   display: flex;
   height: 100%;
-  width: 1240px;
   overflow: hidden;
   margin: 0 auto;
+  justify-content: flex-start;
+  max-width: 1240px;
+  width: 100%;
 }
 
 .orders {
   width: 100%;
+  margin-top: 40px;
+}
+
+.title {
+  display: none;
+}
+
+@media (width < 1201px) {
+  .menu {
+    display: none;
+  }
+
+  .title {
+    display: flex;
+    padding: 20px 0;
+  }
+
+  .orders {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

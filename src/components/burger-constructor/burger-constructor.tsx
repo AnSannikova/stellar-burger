@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import {
@@ -11,10 +11,14 @@ import {
   resetOrderResponse
 } from '@slices';
 import { useNavigate } from 'react-router-dom';
+import { useResize } from '../../hooks/useResize';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const screenSize = useResize();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const user = useSelector(getUserDataSelector);
   const constructorItems = useSelector(getConstructorItemsSelector);
@@ -22,12 +26,21 @@ export const BurgerConstructor: FC = () => {
   const orderModalData = useSelector(getOrderResponseSelector);
 
   const onOrderClick = () => {
-    if (!user) {
-      navigate('/login');
-      return;
+    if (screenSize > 1260 || isOpen) {
+      if (!user) {
+        navigate('/login');
+        return;
+      }
+      dispatch(orderBurger(constructorItems));
+      dispatch(resetConstructorItems());
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
     }
-    dispatch(orderBurger(constructorItems));
-    dispatch(resetConstructorItems());
+  };
+
+  const onCloseClick = () => {
+    setIsOpen(false);
   };
 
   const closeOrderModal = () => {
@@ -54,6 +67,8 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      isOrderOpen={isOpen}
+      onCloseClick={onCloseClick}
     />
   );
 };

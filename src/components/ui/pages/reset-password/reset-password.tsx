@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import { Input, Button } from '@zlden/react-developer-burger-ui-components';
+import { Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { ResetPasswordUIProps } from './type';
 import { PasswordInput } from '../../password-input';
+import { Input } from '@ui';
 
 export const ResetPasswordUI: FC<ResetPasswordUIProps> = ({
   errorText,
@@ -29,6 +30,7 @@ export const ResetPasswordUI: FC<ResetPasswordUIProps> = ({
             error={errors.password}
             errorText='Не менее 6 символов, включая заглавные буквы и цифры'
             onFocus={onFocus}
+            extraClass={styles.input}
           />
         </div>
         <div className='pb-6'>
@@ -42,6 +44,7 @@ export const ResetPasswordUI: FC<ResetPasswordUIProps> = ({
             errorText=''
             size={'default'}
             onFocus={onFocus}
+            extraClass={styles.input}
           />
         </div>
         <div className={`pb-6 ${styles.button}`}>

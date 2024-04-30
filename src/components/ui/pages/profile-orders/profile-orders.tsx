@@ -8,10 +8,11 @@ import { Outlet } from 'react-router-dom';
 
 export const ProfileOrdersUI: FC<ProfileOrdersUIProps> = ({ orders }) => (
   <div className={`${styles.main}`}>
-    <div className={`mt-30 mr-15 ${styles.menu}`}>
+    <div className={`mt-30 mr-15 ml-3 ${styles.menu}`}>
       <ProfileMenu />
     </div>
-    <div className={`mt-10 ${styles.orders}`}>
+    <div className={styles.orders}>
+      <h1 className={`${styles.title} text_type_main`}>Профиль</h1>
       <OrdersList orders={orders} />
     </div>
     <Outlet />

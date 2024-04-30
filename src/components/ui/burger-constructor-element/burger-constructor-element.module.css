@@ -3,10 +3,34 @@
   align-items: center;
   justify-content: flex-end;
   margin-bottom: 16px;
+  max-width: 570px;
 }
 .element_fullwidth {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 536px;
+  margin-left: 8px;
+}
+
+@media (width < 1261px) {
+  .element {
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .element_fullwidth {
+    max-width: 100%;
+  }
+}
+
+@media (width < 651px) {
+  .constructor_element {
+    padding: 10px 0;
+    display: flex;
+  }
+
+  .element_fullwidth {
+    margin: 0;
+  }
 }

@@ -1,9 +1,17 @@
+.text {
+  font-family: 'Jet Brains Mono';
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.25;
+}
+
 .link {
   display: block;
   width: 100%;
   text-decoration: none;
   display: block;
   color: #8585ad;
+  padding: 16px 0;
 }
 
 .link_active {
@@ -16,8 +24,24 @@
   color: #8585ad;
   background-color: unset;
   border: none;
+  padding: 16px 0;
 }
 
 .button:hover {
   cursor: pointer;
+}
+
+@media (width < 1201px) {
+  .details {
+    display: none;
+  }
+
+  .text {
+    font-size: 16px;
+    padding: 10px 0;
+  }
+
+  .first_link {
+    padding-top: 18px;
+  }
 }
