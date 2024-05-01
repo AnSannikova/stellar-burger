@@ -15,7 +15,7 @@
 }
 
 .text {
-  padding: 60px 0 24px;
+  padding: 24px 0;
 }
 
 .img_wrap {
@@ -71,7 +71,7 @@
   list-style: none;
   padding: 0;
   overflow-y: auto;
-  max-height: 320px;
+  max-height: 35dvh;
   margin-bottom: 32px;
 }
 

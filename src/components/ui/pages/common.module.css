@@ -14,7 +14,7 @@
 }
 
 .form {
-  width: 100%;
+  width: 480px;
 }
 
 .title {
@@ -60,5 +60,6 @@
   .form {
     padding: 0 8px;
     box-sizing: border-box;
+    width: 100%;
   }
 }
