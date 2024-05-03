@@ -102,7 +102,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({
           >
             <div ref={mobileMenuRef} className={styles.mobile_menu_wrapper}>
               <div className={styles.mobile_menu_header}>
-                <h1 className={`${styles.title} text_type_main`}>Меню</h1>
+                <h1 className={`${styles.title} text_type_main-large`}>Меню</h1>
                 <CloseIcon
                   className={styles.close_button}
                   type='primary'
@@ -117,7 +117,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({
                   <details className={styles.mobile_menu_details}>
                     <summary className={styles.mobile_menu_summary}>
                       <span
-                        className={`${styles.text_type_link} ${styles.link}`}
+                        className={`${styles.text_type_link} ${styles.link} ${styles.summary_content}`}
                       >
                         Личный кабинет
                       </span>

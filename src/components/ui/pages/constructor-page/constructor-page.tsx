@@ -15,7 +15,9 @@ export const ConstructorPageUI: FC<ConstructorPageUIProps> = ({
       <Preloader />
     ) : (
       <>
-        <h1 className={`${styles.title} text_type_main`}>Соберите бургер</h1>
+        <h1 className={`text_type_main-large ${styles.title}`}>
+          Соберите бургер
+        </h1>
         <div className={styles.main}>
           <BurgerIngredients />
           <BurgerConstructor />

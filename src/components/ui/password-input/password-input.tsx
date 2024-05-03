@@ -1,5 +1,4 @@
 import { TICons } from '@zlden/react-developer-burger-ui-components/dist/ui/icons';
-// import { Input } from '@zlden/react-developer-burger-ui-components';
 import { FC, useState } from 'react';
 import { TPasswordInputProps } from './type';
 import { Input } from '@ui';

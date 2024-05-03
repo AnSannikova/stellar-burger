@@ -17,7 +17,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
   handleInputChange
 }) => (
   <div className={`${styles.container}`}>
-    <h1 className={`${styles.title} text_type_main`}>Профиль</h1>
+    <h1 className={`${styles.title} text_type_main-large`}>Профиль</h1>
     <div className={`mt-30 mr-15 ml-3 ${styles.menu}`}>
       <ProfileMenu />
     </div>

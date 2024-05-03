@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .main {
@@ -53,5 +54,15 @@
 
   .columnInfo {
     overflow: visible;
+  }
+}
+
+@media (width < 577px) {
+  .title_content {
+    flex-direction: column-reverse;
+  }
+
+  .refresh_button {
+    align-self: flex-end;
   }
 }

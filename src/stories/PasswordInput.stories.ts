@@ -1,35 +1,27 @@
+import { PasswordInput } from '@ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { AppHeaderUI } from '@ui';
-
 const meta = {
-  title: 'Example/Header',
-  component: AppHeaderUI,
+  title: 'Example/PasswordInput',
+  component: PasswordInput,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen'
   }
-} satisfies Meta<typeof AppHeaderUI>;
+} satisfies Meta<typeof PasswordInput>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const LoggedIn: Story = {
+export const DefaultPreloader: Story = {
   args: {
-    userName: 'John Doe',
-    onCloseClick: () => {},
-    onMenuIconClick: () => {},
-    isOpen: false
-  }
-};
-
-export const LoggedOut: Story = {
-  args: {
-    userName: undefined,
-    onCloseClick: () => {},
-    onMenuIconClick: () => {},
-    isOpen: false
+    password: '123456789',
+    placeholder: 'Введите пароль',
+    error: false,
+    errorText: '',
+    onChange: () => {},
+    extraClass: ''
   }
 };

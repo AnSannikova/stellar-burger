@@ -42,74 +42,96 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
         })}
       >
         <div className={styles.header}>
-          <h1 className={`${styles.title} text text_type_main`}>Заказ</h1>
+          <h1 className={`${styles.title} text text_type_main-large`}>Заказ</h1>
           <CloseIcon
             type='primary'
             className={styles.close_button}
             onClick={onCloseClick}
           />
         </div>
-        <div className={styles.constructor_wrapper}>
-          {constructorItems.bun ? (
-            <div className={styles.element} data-cy='constructorItemBun'>
-              <ConstructorElement
-                type='top'
-                isLocked
-                text={`${constructorItems.bun.name} (верх)`}
-                price={constructorItems.bun.price}
-                thumbnail={constructorItems.bun.image}
-                extraClass={styles.constructor_element}
-              />
-            </div>
-          ) : (
-            <div
-              className={`${styles.noBuns} ${styles.noBunsTop} text text_type_main-default`}
-              data-cy='constructorItemNoBun'
+        {screenSize < 1261 &&
+        !constructorItems.bun &&
+        constructorItems.ingredients.length === 0 ? (
+          <div className={styles.order_wrapper}>
+            <p
+              className={`text text_type_main-large mb-4 ${styles.order_text}`}
             >
-              Выберите булки
-            </div>
-          )}
-          <ul className={styles.elements}>
-            {constructorItems.ingredients.length > 0 ? (
-              constructorItems.ingredients.map(
-                (item: TConstructorIngredient, index: number) => (
-                  <BurgerConstructorElement
-                    ingredient={item}
-                    index={index}
-                    totalItems={constructorItems.ingredients.length}
-                    key={item.id}
-                  />
-                )
-              )
+              Пока тут пусто
+            </p>
+            <p className='text text_type_main-default mb-10'>
+              Добавьте булочки и ингредиенты
+            </p>
+            <Button
+              htmlType='button'
+              type='primary'
+              children='Перейти в конструктор'
+              onClick={onCloseClick}
+              extraClass={styles.button}
+            />
+          </div>
+        ) : (
+          <div className={styles.constructor_wrapper}>
+            {constructorItems.bun ? (
+              <div className={styles.element} data-cy='constructorItemBun'>
+                <ConstructorElement
+                  type='top'
+                  isLocked
+                  text={`${constructorItems.bun.name} (верх)`}
+                  price={constructorItems.bun.price}
+                  thumbnail={constructorItems.bun.image}
+                  extraClass={styles.constructor_element}
+                />
+              </div>
             ) : (
               <div
-                className={`${styles.noBuns} text text_type_main-default`}
-                data-cy='constructorItemNoFillings'
+                className={`${styles.noBuns} ${styles.noBunsTop} text text_type_main-default`}
+                data-cy='constructorItemNoBun'
               >
-                Выберите начинку
+                Выберите булки
               </div>
             )}
-          </ul>
-          {constructorItems.bun ? (
-            <div className={styles.element}>
-              <ConstructorElement
-                type='bottom'
-                isLocked
-                text={`${constructorItems.bun.name} (низ)`}
-                price={constructorItems.bun.price}
-                thumbnail={constructorItems.bun.image}
-                extraClass={`${styles.constructor_element} ${styles.constructor_element_bottom}`}
-              />
-            </div>
-          ) : (
-            <div
-              className={`${styles.noBuns} ${styles.noBunsBottom} text text_type_main-default`}
-              data-cy='constructorItemNoBun'
-            >
-              Выберите булки
-            </div>
-          )}
-        </div>
+            <ul className={styles.elements}>
+              {constructorItems.ingredients.length > 0 ? (
+                constructorItems.ingredients.map(
+                  (item: TConstructorIngredient, index: number) => (
+                    <BurgerConstructorElement
+                      ingredient={item}
+                      index={index}
+                      totalItems={constructorItems.ingredients.length}
+                      key={item.id}
+                    />
+                  )
+                )
+              ) : (
+                <div
+                  className={`${styles.noBuns} text text_type_main-default`}
+                  data-cy='constructorItemNoFillings'
+                >
+                  Выберите начинку
+                </div>
+              )}
+            </ul>
+            {constructorItems.bun ? (
+              <div className={styles.element}>
+                <ConstructorElement
+                  type='bottom'
+                  isLocked
+                  text={`${constructorItems.bun.name} (низ)`}
+                  price={constructorItems.bun.price}
+                  thumbnail={constructorItems.bun.image}
+                  extraClass={`${styles.constructor_element} ${styles.constructor_element_bottom}`}
+                />
+              </div>
+            ) : (
+              <div
+                className={`${styles.noBuns} ${styles.noBunsBottom} text text_type_main-default`}
+                data-cy='constructorItemNoBun'
+              >
+                Выберите булки
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div className={styles.footer}>

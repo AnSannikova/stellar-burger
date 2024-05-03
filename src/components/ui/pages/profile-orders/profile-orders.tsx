@@ -12,7 +12,9 @@ export const ProfileOrdersUI: FC<ProfileOrdersUIProps> = ({ orders }) => (
       <ProfileMenu />
     </div>
     <div className={styles.orders}>
-      <h1 className={`${styles.title} text_type_main`}>Профиль</h1>
+      <h1 className={`${styles.title} text_type_main-large`}>
+        История заказов
+      </h1>
       <OrdersList orders={orders} />
     </div>
     <Outlet />

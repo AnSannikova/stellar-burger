@@ -19,3 +19,4 @@ export * from './protected-route';
 export * from './tab';
 export * from './constructor-element';
 export * from './input';
+export * from './password-input';

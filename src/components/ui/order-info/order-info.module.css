@@ -15,7 +15,7 @@
 }
 
 .text {
-  padding: 24px 0;
+  padding: 60px 0 24px;
 }
 
 .img_wrap {
@@ -71,7 +71,7 @@
   list-style: none;
   padding: 0;
   overflow-y: auto;
-  max-height: 35dvh;
+  max-height: 30dvh;
   margin-bottom: 32px;
 }
 
@@ -88,6 +88,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  column-gap: 8px;
 }
 .total {
   margin-left: auto;
@@ -112,6 +113,10 @@
     padding: 20px 0 12px;
   }
 
+  .header {
+    font-size: 20px;
+  }
+
   .border {
     width: 50px;
     height: 50px;
@@ -129,5 +134,23 @@
 
   .list {
     max-height: 40dvh;
+    margin-bottom: 12px;
+  }
+}
+
+@media (width < 577px) {
+  .border {
+    width: 40px;
+    height: 40px;
+  }
+
+  .img_wrap {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .img {
+    translate: -19px;
   }
 }

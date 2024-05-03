@@ -35,3 +35,9 @@
 .img {
   display: flex;
 }
+
+@media (width < 577px) {
+  .title {
+    font-size: 28px;
+  }
+}

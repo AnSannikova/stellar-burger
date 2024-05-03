@@ -7,7 +7,10 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-onboarding',
-    '@storybook/addon-interactions'
+    '@storybook/addon-interactions',
+    '@storybook/addon-mdx-gfm',
+    '@storybook/addon-webpack5-compiler-swc',
+    '@chromatic-com/storybook'
   ],
   webpackFinal: async (config) => {
     config.resolve
@@ -28,9 +31,7 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      builder: {
-        useSWC: true
-      }
+      builder: {}
     }
   },
   docs: {

@@ -83,4 +83,8 @@
   .img {
     translate: -20px;
   }
+
+  .order_name {
+    font-size: 20px;
+  }
 }

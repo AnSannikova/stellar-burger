@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styles from './profile-menu.module.css';
 import { NavLink } from 'react-router-dom';
 import { ProfileMenuUIProps } from './type';
@@ -11,7 +11,7 @@ export const ProfileMenuUI: FC<ProfileMenuUIProps> = ({
     <NavLink
       to={'/profile'}
       className={({ isActive }) =>
-        `${styles.link} ${styles.text} ${styles.first_link}${isActive ? styles.link_active : ''}`
+        `${styles.link} ${styles.text} ${styles.first_link} ${isActive ? styles.link_active : ''}`
       }
     >
       Профиль

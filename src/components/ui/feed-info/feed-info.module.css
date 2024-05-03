@@ -2,11 +2,11 @@
   display: flex;
   justify-content: left;
   align-items: flex-start;
+  column-gap: 16px;
 }
 .column {
   display: inline;
   min-width: 50%;
-  padding-right: 16px;
 }
 
 .list {
@@ -21,40 +21,19 @@
   overflow: hidden;
 }
 
+.list_item {
+  text-align: left;
+  min-width: 50%;
+}
+
 .title {
   margin: 0;
   padding-top: 20px;
   text-align: left;
 }
 
-.list_item {
-  text-align: left;
-  min-width: 50%;
-}
-
-.content {
-  text-align: left;
-}
-
-.text_type_main_medium {
-  font-family: 'Jet Brains Mono';
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 1.25;
-}
-
-.text_type_digits {
-  font-family: 'Iceland';
-  font-weight: normal;
-  font-size: 144px;
-  line-height: 0.83;
-}
-
-.text_type_digits_default {
-  font-family: 'Iceland';
-  font-weight: normal;
-  font-size: 28px;
-  line-height: 0.86;
+.title_text {
+  display: block;
 }
 
 .text_shadow {
@@ -65,25 +44,13 @@
 }
 
 @media (width < 1261px) {
-  .text_type_digits {
+  .title_text_accent {
     font-size: 60px;
-  }
-}
-
-@media (width < 769px) {
-  .text_type_main-medium {
-    font-size: 18px;
   }
 }
 
 @media (width < 600px) {
   .wrapper {
     margin: 0 8px;
-  }
-}
-
-@media (width < 426px) {
-  .text_type_digits-default {
-    font-size: 20px;
   }
 }
