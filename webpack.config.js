@@ -49,8 +49,7 @@ module.exports = {
   },
   plugins: [
     new webpack.EnvironmentPlugin({
-      PUBLIC_PATH: null,
-      NODE_ENV: 'development'
+      PUBLIC_PATH: null
     }),
     new ESLintPlugin({
       extensions: ['.js', '.jsx', '.ts', '.tsx']
