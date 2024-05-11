@@ -86,12 +86,9 @@ module.exports = {
     }
   },
   output: {
-    path: path.resolve(__dirname, '..', './dist'),
-    filename: production
-      ? 'static/scripts/[name].[contenthash].js'
-      : 'static/scripts/[name].js',
-    publicPath: process.env.PUBLIC_PATH ? process.env.PUBLIC_PATH : '/',
-    chunkFilename: 'static/scripts/[name].[contenthash].bundle.js'
+    path: path.resolve(__dirname, './dist'),
+    filename: 'bundle.js',
+    publicPath: process.env.PUBLIC_PATH ? process.env.PUBLIC_PATH : '/'
   },
   devServer: {
     static: path.join(__dirname, './dist'),
