@@ -1,9 +1,9 @@
 # Простой workflow для развёртывания статического содержимого на GitHub Pages
 name: Deploy static content to Pages
 on:
-  # Триггером выступает push в ветку master
+  # Триггером выступает push в ветку main
   push:
-    branches: ['master']
+    branches: ['main']
   # Позволяет запустить этот рабочий процесс вручную на вкладке Actions tab.
   workflow_dispatch:
   
