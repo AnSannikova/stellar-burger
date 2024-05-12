@@ -2,6 +2,7 @@
   "name": "react-canonical",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://AnSannikova.github.io/stellar-burger",
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
     "@testing-library/jest-dom": "^5.16.5",
@@ -69,6 +70,7 @@
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-webpack-plugin": "^4.0.1",
     "fetch-mock": "^9.11.0",
+    "gh-pages": "^6.1.1",
     "html-webpack-plugin": "^5.6.0",
     "jest": "^29.7.0",
     "jest-css-modules-transform": "^4.4.2",
@@ -96,7 +98,9 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier ./src --write",
     "cypress": "cypress open",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
