@@ -4,7 +4,7 @@
 
 Stellar Burger — космическая бургерная
 
-Стек: HTML, CSS, TS, Webpack, React
+Стек: HTML, CSS, TS, Webpack, React, Storybook, Jest, Cypress
 
 Структура проекта:
 
